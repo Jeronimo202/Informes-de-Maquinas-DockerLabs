@@ -1,6 +1,6 @@
 # Readme r00tless:
-## WRITE UP CREADO POR JERONIMO BARRERA MONROY TREJOS EJERCICIO PARCIAL 1 CIBERSEGURIDAD r00tless
-## EJERCICIO REALIZADO CON LA AYUDA DEL WRITEUP DE ISMA
+## Write up creado por Jeronimo Barrera Monroy ejercicio parcial 1 ciberseguridad r00tless
+## Ejercicio realizado con la ayuda del writeup de Isma-yo y sk0pj3e
 ## 1. Ping
 
 Una vez inicializada la maquina, lo primero que vamos a realizar es comprobar si hay ping con la maquina:
