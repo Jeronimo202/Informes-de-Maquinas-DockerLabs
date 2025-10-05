@@ -1,5 +1,5 @@
 # Readme r00tless:
-## WRITE UP CREADO POR JUAN DAVID RAMOS TREJOS EJERCICIO PARCIAL 1 CIBERSEGURIDAD r00tless
+## WRITE UP CREADO POR JERONIMO BARRERA MONROY TREJOS EJERCICIO PARCIAL 1 CIBERSEGURIDAD r00tless
 ## EJERCICIO REALIZADO CON LA AYUDA DEL WRITEUP DE ISMA
 ## 1. Ping
 
@@ -8,7 +8,7 @@ Una vez inicializada la maquina, lo primero que vamos a realizar es comprobar si
 ```bash
 ping -c 3 172.18.0.2
 ```
-![alt text](image.png)
+![imagen1](./Imagenes/image.png)
 
 Observamos que el ping fue exitoso.
 
@@ -21,11 +21,11 @@ nmap -p- -sS -sC -sV -vvv --min-rate 5000 -Pn 172.18.0.2
 ```
 Teniendo el siguiente resultado:
 
-![alt text](image-2.png)
+![alt text](./Imagenes/image-2.png)
 
 De todo eso nos fijamos en lo siguiente:
 
-![alt text](image-1.png)
+![alt text](./Imagenes/image-1.png)
 
 Vemos que estan abiertos los siguientes puertos:
 
@@ -36,12 +36,12 @@ Vemos que estan abiertos los siguientes puertos:
 
 Miramos primero que nos encontramos en la pagina web (puerto 80), copiando la ip de la maquina en un buscador:
 
-![alt text](image-3.png)
+![alt text](./Imagenes/image-3.png)
 
 Vemos que es una pagina a la cual le podemos subir archivos, 
 miramos si encontramos algo relevante en el codigo de la pagina:
 
-![alt text](image-4.png)
+![alt text](./Imagenes/image-4.png)
 
 En el cual no encontramos nada importante.
 
@@ -55,15 +55,15 @@ Utilizando la herramienta de gobuster:
 gobuster dir -u http://172.18.0.2 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt
 ```
 
-![alt text](image-5.png)
+![alt text](./Imagenes/image-5.png)
 
 Vemos que hay un **"/upload.php"** el cual vamos a entrar y mirar que nos muestra:
 
-![alt text](image-16.png)
+![alt text](./Imagenes/image-16.png)
 
 Vemos que hay un **"/readme.txt"** en la cual vamos a entrar, mediante la pagina web, obteniendo lo siguiente:
 
-![alt text](image-6.png)
+![alt text](./Imagenes/image-6.png)
 
 El mensaje dice lo siguiente:
 
@@ -77,7 +77,7 @@ Esto nos da a entender que si subimos algun archivo en la pagina principal se su
 
 No sabemos que usuarios puede haber en la maquina, sin embargo, cuando hemos hecho el **nmap** hemos visto que tenia **Samba** instalado, por lo que podemos probar a ejecutar el comando **enum4linux** para ver que informacion nos da:
 
-![alt text](image-14.png)
+![alt text](./Imagenes/image-14.png)
 
 ```bash
 enum4linux 172.18.0.2
@@ -85,15 +85,15 @@ enum4linux 172.18.0.2
 
 El cual tenemos el siguiente resultado:
 
-![alt text](image-7.png)
+![alt text](./Imagenes/image-7.png)
 
 Llegaremos a este apartado y solo le daremos **enter**:
 
-![alt text](image-8.png)
+![alt text](./Imagenes/image-8.png)
 
 Y nos encontraremos con lo siguiente:
 
-![alt text](image-9.png)
+![alt text](./Imagenes/image-9.png)
 
 Hay 4 posibles usuarios, asi que sabiendo que los archivos que subamos a la maquina iran al directorio .ssh podemos crear un par de claves con el comando ssh-keygen y subir la clave publica a la maquina victima.
 
@@ -105,15 +105,15 @@ Colocando el siguiente comando crearemos el un par de claves:
 ssh-keygen -t rsa -b 4096
 ```
 
-![alt text](image-10.png)
+![alt text](./Imagenes/image-10.png)
 
 Aqui colocamos la dirección donde queremos que quede guardada nuestra key, donde esta la maquina. En mi caso fue este:
 
-![alt text](image-11.png)
+![alt text](./Imagenes/image-11.png)
 
 Obtenemos lo siguientes archivos:
 
-![alt text](image-12.png)
+![alt text](./Imagenes/image-12.png)
 
 * **id_rsa**
 * **id_rsa.pub**
@@ -124,28 +124,28 @@ Ahora pasamos la clave a un **authorized_keys**
 sudo sh -c 'cat id_rsa.pub > authorized_keys'
 ```
 
-![alt text](image-13.png)
+![alt text](./Imagenes/image-13.png)
 
 Y le damos permisos a id_rsa:
 
 ```bash
 sudo chmod 600 id_rsa
 ```
-![alt text](image-15.png)
+![alt text](./Imagenes/image-15.png)
 
 ## 6. Subir Archivo  
 
 Subimos el **authorized_keys** en la pagina web:
 
-![alt text](image-17.png)
+![alt text](./Imagenes/image-17.png)
 
 Seleccionamos el archivo:
 
-![alt text](image-18.png)
+![alt text](./Imagenes/image-18.png)
 
 Ya el archivo subido correctamente: 
 
-![alt text](image-19.png)
+![alt text](./Imagenes/image-19.png)
 
 ## 7. Conexion SSH
 
@@ -155,29 +155,29 @@ Ahora nos conectaremos via ssh probando con los usuarios encontrados anteriormen
 sudo ssh passsamba@172.18.0.2 -i id_rsa
 ```
 
-![alt text](image-20.png)
+![alt text](./Imagenes/image-20.png)
 
 Ya dentro hacemos un **"ls"** para ver que nos muestra:
 
-![alt text](image-21.png)
+![alt text](./Imagenes/image-21.png)
 
 o tambien con **ls -trola** para mas ver mas cosas:
 
-![alt text](image-22.png)
+![alt text](./Imagenes/image-22.png)
 
 Esto aparenta ser una contraseña para entrar con otro usuario, entonces probamos con los usuarios restantes y vemos que podremos acceder con el usuario **sambauser**:
 
-![alt text](image-23.png)
+![alt text](./Imagenes/image-23.png)
 
 Y ya somos ahora **sambauser**
 
 Ya dentro buscaremos alguna carpeta que tenga algo interesante, por ejemplo dentro de la carpeta **srv**:
 
-![alt text](image-25.png)
+![alt text](./Imagenes/image-25.png)
 
 y si seguimos explorando por ahi, encontraremos un **secret.zip**:
 
-![alt text](image-26.png)
+![alt text](./Imagenes/image-26.png)
 
 ## 8. Servidor Python Puerto:8080
 
@@ -187,7 +187,7 @@ Para extraer el archivo **secret.zip**, nos lo pasamos a nuestra maquina atacant
 python3 -m http.server 8080
 ```
 
-![alt text](image-28.png)
+![alt text](./Imagenes/image-28.png)
 
 Abrimos otra shell donde con un **wget** tomar el **secret.zip**
 
@@ -201,7 +201,7 @@ Vamos a crackearlo con zip2john y john:
 sudo sh -c 'zip2john secret.zip > hash'
 ```
 
-![alt text](image-29.png)
+![alt text](./Imagenes/image-29.png)
 
 y ahora con el john:
 
@@ -209,7 +209,7 @@ y ahora con el john:
 sudo john --wordlist=/usr/share/wordlists/rockyou.txt hash
 ```
 
-![alt text](image-30.png)
+![alt text](./Imagenes/image-30.png)
 
 Ahi obtenemos la contraseña para extraer el **.zip**:
 
@@ -223,18 +223,18 @@ El cual hay dos formas para extraer el **.zip**:
 sudo unzip -P qwert secret.zip
 ```
 
-![alt text](image-31.png)
+![alt text](./Imagenes/image-31.png)
 
 * **2.**
 ```bash
 sudo unzip secret.zip
 ```
 
-![alt text](image-32.png)
+![alt text](./Imagenes/image-32.png)
 
 Y ahora con **cat secret.txt** vamos a visualizar lo que hay dentro del **.txt**
 
-![alt text](image-33.png)
+![alt text](./Imagenes/image-33.png)
 
 Vemos que tenemos lo que parece ser, el usuario **root-false** con contraseña **"cGFzc3dvcmRiYWRzZWN1cmV1bHRyYQ=="**
 
@@ -244,7 +244,7 @@ Ahora decodificamos a **Base64**:
 echo 'cGFzc3dvcmRiYWRzZWN1cmV1bHRyYQ==' | base64  -d
 ```
 
-![alt text](image-34.png)
+![alt text](./Imagenes/image-34.png)
 
 Todo esto se realiza en la nueva shell que creamos. 
 
@@ -261,13 +261,13 @@ Colocando la contraseña:
 passwordbadsecureultra
 ```
 
-![alt text](image-35.png)
+![alt text](./Imagenes/image-35.png)
 
 Y efectivamente ahora solo **root-false**
 
 Buscando que hay en su directorio home observamos lo siguiente:
 
-![alt text](image-36.png)
+![alt text](./Imagenes/image-36.png)
 
 Vemos que hay una **message.txt** al cual le hacemos un **cat** 
 
@@ -275,19 +275,19 @@ Parece ser un nuevo usuario llamado **mario**, con el mensaje **"pinguinodemario
 
 Si seguimos explorando por los directorios:
 
-![alt text](image-37.png)
+![alt text](./Imagenes/image-37.png)
 
 Entramos por el **/etc/**
 
-![alt text](image-38.png)
+![alt text](./Imagenes/image-38.png)
 
 Miramos la carpeta **apache2**
 
-![alt text](image-39.png)
+![alt text](./Imagenes/image-39.png)
 
 Entramos a la carpeta **sites-enabled**
 
-![alt text](image-40.png)
+![alt text](./Imagenes/image-40.png)
 
 y haremos un cat sobre **second-site.conf**
 
@@ -295,7 +295,7 @@ y haremos un cat sobre **second-site.conf**
 cat /etc/apache2/sites-enabled/second-site.conf
 ```
 
-![alt text](image-41.png)
+![alt text](./Imagenes/image-41.png)
 
 Vemos que hay otra pagina web a la que podemos acceder utilizando otra ip
 
@@ -305,11 +305,11 @@ Si hacemos un curl a la IP para ver el contenido de la web observamos lo siguien
 curl http://10.10.11.5/
 ```
 
-![alt text](image-43.png) 
+![alt text](./Imagenes/image-43.png) 
 
 Si seguimos bajando encontraremos un apartado de login:
 
-![alt text](image-44.png)
+![alt text](./Imagenes/image-44.png)
 
 Probablemente podremos utilizar el usuario **mario** y la contraseña que habia dentro del **message.txt**, para ellos ejeuctaremos el siguiente comando:
 
@@ -317,18 +317,18 @@ Probablemente podremos utilizar el usuario **mario** y la contraseña que habia 
 curl -vvv -d 'username=mario&password=pinguinodemarioelmejor' http://10.10.11.5
 ```
 
-![alt text](image-45.png)
+![alt text](./Imagenes/image-45.png)
 
 En el apartado de location hay una nueva ruta donde puede haber algo, miraremos el contenido de esa ruta con el siguiente comando:
 
 ```bash
 curl -vvv http://10.10.11.5/super_secure_page/admin.php/
 ```
-![alt text](image-46.png)
+![alt text](./Imagenes/image-46.png)
 
 Si seguimos bajando hasta el final, encontramos lo siguiente:
 
-![alt text](image-47.png)
+![alt text](./Imagenes/image-47.png)
 
 Encontramos un fichero algo sospechoso, veremos que contiene con el siguiente comando:
 
@@ -338,43 +338,43 @@ curl -vvv http://10.10.11.5/ultramegatextosecret.txt
 
 ## 11. Acceso a usuario less
 
-![alt text](image-48.png)
+![alt text](./Imagenes/image-48.png)
 
 Vemos el siguiente mensaje:
 
-![alt text](image-49.png)
+![alt text](./Imagenes/image-49.png)
 
 Parece ser un texto cualquiera, sin relevancia, pero podemos ver dos cosas que llaman la atención, el autor es **less** uno de los usuarios que encontramos al inicio y el mensaje con guion al piso **"Cristal_de_la_Aurora"**, parece como si se tratara de una contraseña.
 
 Entonces lo probaremos:
 
-![alt text](image-50.png)
+![alt text](./Imagenes/image-50.png)
 
 Ahora somos el usuario **less**
 
 Ejecutaremos el comando **sudo -l** para ver si podemos ejecutar algo con el usuario root sin utilizar contraseña:
 
-![alt text](image-51.png)
+![alt text](./Imagenes/image-51.png)
 
 Vemos que podemos ejecutar el comando **chown** para cambiar el propietario de los archivos.
 
 Lo haremos con el fichero **/etc/passwd**, donde una vez que seamos propietarios del fichero podremos editarlo para quitarle la **x** al usuario **root** y de este modo no tenga contraseña:
 
-![alt text](image-52.png)
+![alt text](./Imagenes/image-52.png)
 
 Aca no modifique el archivo con el **nano**, quitando la **x** por lo cual no pude acceder al **root**.
 
-![alt text](image-53.png)
+![alt text](./Imagenes/image-53.png)
 
 Modificando ahora si:
 
-![alt text](image-54.png)
+![alt text](./Imagenes/image-54.png)
 
 ```bash
 su root
 ```
 
-![alt text](image-55.png)
+![alt text](./Imagenes/image-55.png)
 
 Y ya somos root!!!
 
