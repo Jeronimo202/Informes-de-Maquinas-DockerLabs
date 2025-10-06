@@ -102,7 +102,7 @@ Hay 4 posibles usuarios, asi que sabiendo que los archivos que subamos a la maqu
 Colocando el siguiente comando crearemos el un par de claves:
 
 ```bash
-ssh-keygen -t rsa -b 4096
+sudo ssh-keygen -t rsa -b 4096
 ```
 
 ![alt text](./Imagenes/image-10.png)
@@ -191,6 +191,10 @@ python3 -m http.server 8080
 
 Abrimos otra shell donde con un **wget** tomar el **secret.zip**
 
+```bash
+sudo wget http://172.18.0.2:8080/secret.zip
+```
+
 Y haciendo un **ls** vemos que ya tenenmos el **.zip**  
 
 ## 9. Extraccion del .zip
@@ -232,7 +236,11 @@ sudo unzip secret.zip
 
 ![alt text](./Imagenes/image-32.png)
 
-Y ahora con **cat secret.txt** vamos a visualizar lo que hay dentro del **.txt**
+Y ahora con **cat** vamos a visualizar lo que hay dentro del **.txt**:
+
+```bash
+cat secret.txt
+```
 
 ![alt text](./Imagenes/image-33.png)
 
@@ -358,7 +366,11 @@ Ejecutaremos el comando **sudo -l** para ver si podemos ejecutar algo con el usu
 
 Vemos que podemos ejecutar el comando **chown** para cambiar el propietario de los archivos.
 
-Lo haremos con el fichero **/etc/passwd**, donde una vez que seamos propietarios del fichero podremos editarlo para quitarle la **x** al usuario **root** y de este modo no tenga contraseña:
+Lo que haremos con el fichero **/etc/passwd**, donde una vez que seamos propietarios del fichero podremos editarlo para quitarle la **x** al usuario **root** y de este modo no tenga contraseña:
+
+```bash
+sudo chown less:less /etc/passwd
+```
 
 ![alt text](./Imagenes/image-52.png)
 
@@ -379,3 +391,7 @@ su root
 Y ya somos root!!!
 
 Y finalizamos.
+
+
+
+# 10 Vulnerabilidades encontradas.
