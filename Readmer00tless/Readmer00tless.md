@@ -1,6 +1,11 @@
-# Readme r00tless:
-## Write up creado como ejercicio parcial 1 ciberseguridad r00tless
+# Informe Pentesting máquina r00tless:
+
 ## Ejercicio realizado con la ayuda del writeup de Isma-yo y sk0pj3e
+
+### Sitema operativo: Linux
+### Maquina de Virtualización: VMare Workstation Pro
+
+Prueba de penetración práctica sobre la máquina  **r00tless** (entorno **DockerLabs**). El objetivo fue identificar y explotar vulnerabilidades para demostrar la posibilidad de escalado de privilegios y extracción de información sensible, documentando los pasos y evidencias, como capturas, outputs y prueba final de **root**.
 
 <br>
 
